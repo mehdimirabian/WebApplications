@@ -1,0 +1,9 @@
+to run sqlite and in general work with dataases in web2py
+you should navigate to web2py/applications/<specific application name>
+then run sqlite using: sqlite3 storage.sqlite
+then in there you can do a bunch of stuff
+you can see the list of tables using: .tables
+you can see the form of a table using: .schema <table name>
+or you can see the contents of a table using: SELECT* FROM <table name>;
+and a whole array of other things, if you delete a table then you should recreate
+it manually as web2py wont automatically do it again

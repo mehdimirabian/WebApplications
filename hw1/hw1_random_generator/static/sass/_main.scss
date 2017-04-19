@@ -1,0 +1,10 @@
+.colorful {
+  color: $clrHilight;
+}
+
+div.myPage {
+  font-size: $myFontSize;
+  background: $bckgrnd;
+  border: 2px solid $myBorderColor;
+  @include border-radius(20px);
+}

@@ -1,0 +1,34 @@
+To work with compass you need to run compass in your web application directory in web2py using the following command: compass run static
+then using this you can then in your pycharm navigate to ...\<application_name>\static\sass
+then in there you can create constants for colors or fonts or watever in the file _constants.scss
+and you can use these constants to create classes in the myapp.scss which do a lot of different things such as
+graphical shapes and fonts and all of that.
+this scss file will create an actual css file which then can be used in our html file called myapp.css in the directory:
+...\web2py\applications\<application_name>\static\css
+REMEMBER this works only if compass is running and also its advantage is using variables for colors and fonts and stuff
+
+now if you want to forget about compass and want to just create a css file then you need to create a css then in the layout.html
+you need to declare that css file.
+then you can use all the awesome features in your main html file for example:
+the following is in page.css:
+
+.myquote {font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;}
+
+.mid_content {background: #00d95a;
+            color: #0000cc;}
+
+
+and the following is page.html which uses that css (note the names do not need to match):
+<div class="mid_content">
+    <p>First paragraph.</p>
+    <p>Second paragraph.</p>
+    <p>I love <span class="myquote">to feed my cats.</span></p>
+    <p>I never bake <span class="myquote boldquote">cakes.</span></p>
+    <a href="www.soe.ucsc.edu">School of Engineering</a>
+</div>
+
+like you can see the following has the background with color #00d95a and font color #0000cc and also at some point
+uses the font monospace, specifically where it says "to feed my cats".
+
+note that if we used compass we would be able to set the colors to a variable to use it in many places and
+in case of a change wed only change one thing

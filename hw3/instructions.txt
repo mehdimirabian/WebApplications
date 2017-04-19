@@ -1,0 +1,61 @@
+the way I recognized we should do this is create a js file in this case default_index.js
+in this create a variable called self, then create a vue block and use it combined by self
+like
+// This is the js for the default/index.html view.
+
+var app = function() {
+
+    //self var i mentioned
+    var self = {};
+
+    Vue.config.silent = false; // show all warnings
+
+    // Extends an array
+    self.extend = function(a, b) {
+        for (var i = 0; i < b.length; i++) {
+            a.push(b[i]);
+        }
+    };
+
+
+    // Complete as needed.
+    //vue block i mentioned
+    self.vue = new Vue({
+        el: "#vue-div",
+        delimiters: ['${', '}'],
+        unsafeDelimiters: ['!{', '}'],
+        data: {
+            is_adding_post: false,
+            has_more: false
+        },
+        methods: {
+            get_more: self.get_more
+        }
+
+    });
+
+    return self;
+};
+
+var APP = null;
+
+// This will make everything accessible from the js console;
+// for instance, self.x above would be accessible as APP.x
+jQuery(function(){APP = app();});
+
+you can add functionalities and stuff to the vue like this method that shows if
+the add post button has been pressed or not:
+    self.add_post_button = function(){
+        self.vue.is_adding_post = !self.vue.is_adding_post;
+        alert(self.vue.is_adding_post);
+    };
+also wen you add a method you should do 
+add_post_button: self.add_post_button
+to the methods section of vue.
+
+then you change to html file this case index.html
+and you visualize the page using the functionalities in here using vue for example
+the following creates an add post button and let it stay there until it is pressed:
+            <button v-if="!is_adding_post" class="btn btn-danger btn-sm" v-on:click="add_post_button()">
+            Add track
+            </button>

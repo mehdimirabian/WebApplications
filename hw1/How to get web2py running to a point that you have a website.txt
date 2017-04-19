@@ -1,0 +1,14 @@
+First note:
+first look at the image called "things you need to create a website"
+note web2py that you download is an open source BUT start application that he refers to get from git
+is not and is created by him, so you can use it as an example but create your own application like i 
+mention in the bottom
+
+You download web2py. 
+make a folder in your applications folder
+create a python file in it named file.py
+create a function in that file name function
+and also create a html file in it named function.html(same name as the function)
+note that html file will show the things function has created 
+then when you run your python file in pycharm or when you put in command "python web2py -e" you can start your website server on port 8000 or anything higher than that
+then your website url is "<ip_address>:<port_number>/<application_name>/<file_name>/<function_name>

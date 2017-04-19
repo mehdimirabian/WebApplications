@@ -1,0 +1,17 @@
+/* line 1, ../sass/_main.scss */
+.colorful {
+  color: #bb8833;
+}
+
+/* line 5, ../sass/_main.scss */
+div.myPage {
+  width: 120px;
+  height: 70px;
+  margin-left: 550px;
+  font-size: 46px;
+  background: #d3d3d3;
+  border: 2px solid #0736f6;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  border-radius: 20px;
+}

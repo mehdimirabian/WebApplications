@@ -1,0 +1,264 @@
+{{extend 'layout.html'}}
+<style>
+/* Full-width input fields */
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #f44336;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+    position: relative;
+}
+
+img.avatar {
+    width: 40%;
+    border-radius: 50%;
+}
+
+.container {
+    padding: 16px;
+}
+
+span.psw {
+    float: right;
+    padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+    position: absolute;
+    right: 25px;
+    top: 0;
+    color: #000;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: red;
+    cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0)}
+    to {-webkit-transform: scale(1)}
+}
+
+@keyframes animatezoom {
+    from {transform: scale(0)}
+    to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+    span.psw {
+       display: block;
+       float: none;
+    }
+    .cancelbtn {
+       width: 100%;
+    }
+}
+</style>
+<div class="post_listing center">
+    <div id="id01" class="modal">
+        <iframe src="" style="width:50%;height:60%;" id="iframe1"></iframe>
+    </div>
+    <div id="id02" class="modal">
+        <iframe src="" style="width:50%;height:60%;" id="iframe2"></iframe>
+    </div>
+<!--if user is logged in-->
+{{if auth.user_id:}}
+
+    <div class="post_list_header text-right"><!--{{=URL('default', 'edit')}}-->
+        <a href="#" class="btn btn-warning" onclick="clicknewpost('{{=URL('default', 'edit')}}')">
+            <i class="fa fa-plus"></i> New Post
+        </a>
+    </div>
+    <script>
+        $('#iframe1').load(function(){
+            var submitelement = document.getElementById('iframe1').contentDocument.getElementsByTagName('input')[0];
+            if (submitelement == undefined) {
+            document.getElementById('id01').style.display='none';
+            document.location.reload();
+            return;
+            }
+            submitelement.onclick = function() {
+			//alert('click');
+			document.getElementById('id01').style.display='none';
+             //alert('sss');
+			// delete event, once run
+			submitelement.onclick = null;
+            windows.document.location.reload();
+		    }
+        });
+        $('#iframe2').load(function(){
+            //alert('2 loaded');
+            var submitelement = document.getElementById('iframe2').contentDocument.getElementsByTagName('input')[0];
+            if (submitelement == undefined) {
+            document.getElementById('id02').style.display='none';
+            document.location.reload();
+            return;
+            }
+            submitelement.onclick = function() {
+			// delete event, once run
+			submitelement.onclick = null;
+			document.getElementById('id02').style.display='none';
+			document.location.reload();
+		    }
+        });
+        function clicknewpost(url)
+        {
+                var iframe = document.getElementById('iframe1');
+                var html = '<body>Foo</body>';
+                iframe.src = url;
+                document.getElementById('id01').style.display='block';
+        }
+
+        function editpost(url)
+        {
+            var iframe = document.getElementById('iframe2');
+            var html = '<body>Foo</body>';
+            iframe.src = url+"?edit=true";
+            document.getElementById('id02').style.display='block';
+        }</script>
+
+<!--if user is not looged in-->
+{{else:}}
+
+    <div class="post_list_header text-right">
+        <a href="{{=URL('default', 'user', args=['login'])}}" class="btn btn-warning">Log In</a>
+    </div>
+{{pass}}
+    <div class="post_list" id="post_list">
+        {{for i in range(4):}}
+                <div class="post text-left">
+                    <!-- Here goes the code to display an individual post. The code below is just a placeholder. -->
+                    {{=posts[i].post_content}}
+                    <br>
+                    <div class="time">
+                    <b><i>Author: </i></b> {{=posts[i].user_email}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                    <b><i>Created on: </i></b> {{=posts[i].created_on}} &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                    {{if posts[i].created_on != posts[i].updated_on:}}
+                        <b><i>Last edited on: </i></b> {{=posts[i].updated_on}}
+                    {{pass}}
+                    <!--this displays the edit button if the user has permission-->
+                    {{if auth.user_id and posts[i].user_email == auth.user.email:}}
+                    <a href="#" class="btn btn-edit" onclick="editpost('{{=URL('default', 'edit', args=[posts[i].id])}}')">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                    <a href="{{=URL('default', 'delete', args=[posts[i].id])}}" class="btn btn-edit">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </a>
+                    {{pass}}
+                    </div>
+                </div>
+        {{pass}}
+    </div>
+    {{if auth.user_id :}}
+        <!--<button onclick="showmore('{{=auth.user_id}}','{{=auth.user.email}}','{{=URL('default', 'edit')}}','{{=posts}}')" id="showmore">show more</button>-->
+        <button onclick="showmore('{{=auth.user_id}}','{{=auth.user.email}}','{{=URL('default', 'edit')}}')" id="showmore">show more</button>
+    {{else:}}
+        <button onclick="showmore()" id="showmore1">show more</button>
+    {{pass}}
+</div>
+<script>
+    function showmore(userid,useremail,url)
+    {
+        $.ajax({
+        url: '{{=URL("default", "showmore")}}',
+        type:"GET",
+        success:function(data,status)
+        {
+            document.getElementById("post_list").innerHTML="";
+            var htmlContent ="";
+            for(var index in data)
+            {
+                htmlContent +='<div class="post text-left">'+data[index]['post_content']+'<br><div class="time">'+
+                    '<b><i>Author: </i></b> '+data[index]['user_email']+' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<b><i>Created on: </i></b> '+data[index]['created_on']+' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                if (userid && data[index]['user_email'] == useremail)
+                {
+                    htmlContent +='<a href="#" class="btn btn-edit" onclick="editpost('+"'"+(url+'/'+data[index]['id'])+"')"+'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>'+
+                    '</a>';
+                    var deleteUrl = '{{=URL('default', 'delete', args='userid')}}';
+                    deleteUrl = deleteUrl.replace("userid",data[index]['id']);
+                    htmlContent +='<a href="'+deleteUrl+'" class="btn btn-edit">'+
+                        '<i class="fa fa-trash-o" aria-hidden="true"></i></a>';
+                }
+                htmlContent +='</div></div>';
+
+            }
+            document.getElementById("post_list").innerHTML= htmlContent;
+            document.getElementById("showmore").remove();
+        }
+        });
+
+    }
+    var modal = document.getElementById('id01');
+    var modal2 = document.getElementById('id02');
+
+// When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal || event.target == modal2 ) {
+            modal.style.display = "none";
+            modal2.style.display = "none";
+            //window.location.reload(true);
+        }
+    }
+</script>
